@@ -26,6 +26,11 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotFoundComponent } from './not-found/not-found.component';
 
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt);
+
 @NgModule({
   declarations: [
     AppComponent,

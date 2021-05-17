@@ -1,9 +1,8 @@
 "use strict";
 exports.__esModule = true;
-exports.handleAuthorization = void 0;
 var jwt = require("jsonwebtoken");
 var api_config_1 = require("./api-config");
-var handleAuthorization = function (req, res, next) {
+exports.handleAuthorization = function (req, res, next) {
     var token = extractToken(req);
     if (!token) {
         res.setHeader('WWW-Authenticate', 'Bearer token_type="JWT"');
@@ -20,7 +19,6 @@ var handleAuthorization = function (req, res, next) {
         });
     }
 };
-exports.handleAuthorization = handleAuthorization;
 function extractToken(req) {
     var token = req.headers.authorization;
     if (token) {

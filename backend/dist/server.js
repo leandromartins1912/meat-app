@@ -5,9 +5,18 @@ var fs = require("fs");
 var https = require("https");
 var auth_1 = require("./auth");
 var authz_1 = require("./authz");
+var cors = require("cors");
 var server = jsonServer.create();
 var router = jsonServer.router('db.json');
 var middlewares = jsonServer.defaults();
+var corsConf = {
+    allowedHeaders: ['Origin, X-Requested-With, Content-Type, Accept, X-Access-Token'],
+    credentials: true,
+    methods: 'GET, HEAD, OPTIONS, POST, PUT, PATCH, DELETE',
+    origin: 'https://localhost:3001',
+    preflightContinue: false
+};
+server.use(cors(corsConf));
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 server.post('/login', auth_1.handleAuthentication);
