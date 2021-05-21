@@ -8,7 +8,6 @@ import{handleAuthentication} from './auth'
 import{handleAuthorization} from './authz'
 
 import * as cors from 'cors'
-import * as crs from 'restify-cors-middleware'
 
 import {MEAT_API} from '../src/app/app.api'
 
@@ -16,7 +15,7 @@ const server = jsonServer.create()
 const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
 
-/*const corsConf: cors.CorsOptions = {
+const corsConf: cors.CorsOptions = {
     allowedHeaders: [
       'Origin',
       'X-Requested-With',
@@ -31,15 +30,11 @@ const middlewares = jsonServer.defaults()
   };
 
   
-server.use(cors(corsConf))*/
+server.use(cors(corsConf))
 server.use(middlewares)
 
 server.use(jsonServer.bodyParser)
-server.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // (*) todos os dominios
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
 server.post('/login', handleAuthentication)
 server.use('/orders', handleAuthorization)
 
