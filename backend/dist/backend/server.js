@@ -5,32 +5,27 @@ var fs = require("fs");
 var https = require("https");
 var auth_1 = require("./auth");
 var authz_1 = require("./authz");
+var cors = require("cors");
+var app_api_1 = require("../src/app/app.api");
 var server = jsonServer.create();
 var router = jsonServer.router('db.json');
 var middlewares = jsonServer.defaults();
-/*const corsConf: cors.CorsOptions = {
+var corsConf = {
     allowedHeaders: [
-      'Origin',
-      'X-Requested-With',
-      'Content-Type',
-      'Accept',
-      'X-Access-Token'
+        'Origin',
+        'X-Requested-With',
+        'Content-Type',
+        'Accept',
+        'X-Access-Token'
     ],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS',
-    origin: MEAT_API,
-    preflightContinue: false,
-  };
-
-  
-server.use(cors(corsConf))*/
+    origin: app_api_1.MEAT_API,
+    preflightContinue: false
+};
+server.use(cors(corsConf));
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
-server.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // (*) todos os dominios
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 server.post('/login', auth_1.handleAuthentication);
 server.use('/orders', authz_1.handleAuthorization);
 server.use(router);
